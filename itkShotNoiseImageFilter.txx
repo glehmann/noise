@@ -21,6 +21,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkProgressReporter.h"
+#include "itkNormalVariateGenerator.h"
 
 namespace itk
 {
@@ -46,6 +47,7 @@ ShotNoiseImageFilter<TInputImage, TOutputImage>
   typename Statistics::ThreadSafeMersenneTwisterRandomVariateGenerator::Pointer rand = 
       Statistics::ThreadSafeMersenneTwisterRandomVariateGenerator::New();
   rand->Initialize();
+  typename Statistics::NormalVariateGenerator::Pointer randn = Statistics::NormalVariateGenerator::New();
   
   // Define the portion of the input to walk for this thread, using
   // the CallCopyOutputRegionToInputRegion method allows for the input
@@ -65,17 +67,25 @@ ShotNoiseImageFilter<TInputImage, TOutputImage>
   while( !inputIt.IsAtEnd() ) 
     {
     double in = m_Scale * inputIt.Get();
+    if( in < 50 )
+      {
     double L = vcl_exp( -in );
     long k = 0;
-    double p = 1.0;
-    do
-      {
-      k += 1;
-      p *= rand->GetVariate();
+      double p = 1.0;
+      do
+        {
+        k += 1;
+        p *= rand->GetVariate();
+        }
+      while( p > L );
+      // clip the output to the actual supported range
+      outputIt.Set( (OutputImagePixelType) std::min( (double)NumericTraits<OutputImagePixelType>::max(), (k-1)/m_Scale ) );
       }
-    while( p > L );
-    // clip the output the actual supported range
-    outputIt.Set( (OutputImagePixelType) std::min( (double)NumericTraits<OutputImagePixelType>::max(), (k-1)/m_Scale ) );
+    else
+      {
+      double out = in + vcl_sqrt( in ) * randn->GetVariate();
+      outputIt.Set( (OutputImagePixelType) std::min( (double)NumericTraits<OutputImagePixelType>::max(), out/m_Scale ) );
+      }
     ++inputIt;
     ++outputIt;
     progress.CompletedPixel();  // potential exception thrown here
