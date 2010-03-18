@@ -85,6 +85,14 @@ SET(CurrentExe "sp")
 ADD_EXECUTABLE(${CurrentExe} ${CurrentExe}.cxx)
 TARGET_LINK_LIBRARIES(${CurrentExe} ${Libraries} ITKStatistics)
 
+SET(CurrentExe "median")
+ADD_EXECUTABLE(${CurrentExe} ${CurrentExe}.cxx)
+TARGET_LINK_LIBRARIES(${CurrentExe} ${Libraries} ITKStatistics)
+
+SET(CurrentExe "psnr")
+ADD_EXECUTABLE(${CurrentExe} ${CurrentExe}.cxx)
+TARGET_LINK_LIBRARIES(${CurrentExe} ${Libraries} ITKStatistics)
+
 ENDIF(BUILD_TESTING)
 
 #the following line is an example of how to add a test to your project.
