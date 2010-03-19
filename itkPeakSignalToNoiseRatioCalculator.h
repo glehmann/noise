@@ -24,7 +24,7 @@ namespace itk
 {
 
 /** \class PeakSignalToNoiseRatioCalculator
- * \brief Compute the robust automatic threshold
+ * \brief Compute the PSNR of a noisy image
  *
  * \ingroup Operators
  */
