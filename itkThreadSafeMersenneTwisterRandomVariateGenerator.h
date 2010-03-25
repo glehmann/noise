@@ -28,6 +28,7 @@
 #include "vcl_ctime.h"
 #include "vnl/vnl_math.h"
 #include <limits.h>
+#include "itkSimpleFastMutexLock.h"
 
 
 namespace itk {
@@ -245,6 +246,7 @@ protected:
     return m ^ (mixBits(s0,s1)>>1) ^ (-loBit(s1) & 0x9908b0dfUL); 
     }
   static IntegerType hash( vcl_time_t t, vcl_clock_t c );
+  static SimpleFastMutexLock lock;
 };  // end of class
   
 // Declare inlined functions.... (must be declared in the header)
@@ -256,6 +258,8 @@ ThreadSafeMersenneTwisterRandomVariateGenerator::hash( vcl_time_t t, vcl_clock_t
   // Get a IntegerType from t and c
   // Better than IntegerType(x) in case x is floating point in [0,1]
   // Based on code by Lawrence Kirby: fred at genesis dot demon dot co dot uk 
+
+  static IntegerType differ = 0;  // guarantee time-based seeds will change
 
   IntegerType h1 = 0;
   unsigned char *p = (unsigned char *) &t;
@@ -271,8 +275,13 @@ ThreadSafeMersenneTwisterRandomVariateGenerator::hash( vcl_time_t t, vcl_clock_t
     h2 *= UCHAR_MAX + 2U;
     h2 += p[j];
     }
-  return h1 ^ h2;
+  lock.Lock();
+  IntegerType res = ( h1 + differ++ ) ^ h2;
+  lock.Unlock();
+  return res;
 }
+
+SimpleFastMutexLock ThreadSafeMersenneTwisterRandomVariateGenerator::lock;
 
 
 inline void 
