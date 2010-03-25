@@ -70,7 +70,7 @@ ENDIF(BUILD_WRAPPERS)
 IF(BUILD_TESTING)
 
 SET(CurrentExe "shot")
-ADD_EXECUTABLE(${CurrentExe} ${CurrentExe}.cxx)
+ADD_EXECUTABLE(${CurrentExe} ${CurrentExe}.cxx itkThreadSafeMersenneTwisterRandomVariateGenerator.cxx)
 TARGET_LINK_LIBRARIES(${CurrentExe} ${Libraries} ITKStatistics)
 
 SET(CurrentExe "gauss")
@@ -78,11 +78,11 @@ ADD_EXECUTABLE(${CurrentExe} ${CurrentExe}.cxx)
 TARGET_LINK_LIBRARIES(${CurrentExe} ${Libraries} ITKStatistics)
 
 SET(CurrentExe "speckle")
-ADD_EXECUTABLE(${CurrentExe} ${CurrentExe}.cxx)
+ADD_EXECUTABLE(${CurrentExe} ${CurrentExe}.cxx itkThreadSafeMersenneTwisterRandomVariateGenerator.cxx)
 TARGET_LINK_LIBRARIES(${CurrentExe} ${Libraries} ITKStatistics)
 
 SET(CurrentExe "sp")
-ADD_EXECUTABLE(${CurrentExe} ${CurrentExe}.cxx)
+ADD_EXECUTABLE(${CurrentExe} ${CurrentExe}.cxx  itkThreadSafeMersenneTwisterRandomVariateGenerator.cxx)
 TARGET_LINK_LIBRARIES(${CurrentExe} ${Libraries} ITKStatistics)
 
 SET(CurrentExe "median")

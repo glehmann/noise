@@ -247,6 +247,8 @@ protected:
     }
   static IntegerType hash( vcl_time_t t, vcl_clock_t c );
   static SimpleFastMutexLock lock;
+  static IntegerType differ;  // guarantee time-based seeds will change
+  
 };  // end of class
   
 // Declare inlined functions.... (must be declared in the header)
@@ -258,8 +260,6 @@ ThreadSafeMersenneTwisterRandomVariateGenerator::hash( vcl_time_t t, vcl_clock_t
   // Get a IntegerType from t and c
   // Better than IntegerType(x) in case x is floating point in [0,1]
   // Based on code by Lawrence Kirby: fred at genesis dot demon dot co dot uk 
-
-  static IntegerType differ = 0;  // guarantee time-based seeds will change
 
   IntegerType h1 = 0;
   unsigned char *p = (unsigned char *) &t;
@@ -280,9 +280,6 @@ ThreadSafeMersenneTwisterRandomVariateGenerator::hash( vcl_time_t t, vcl_clock_t
   lock.Unlock();
   return res;
 }
-
-SimpleFastMutexLock ThreadSafeMersenneTwisterRandomVariateGenerator::lock;
-
 
 inline void 
 ThreadSafeMersenneTwisterRandomVariateGenerator::Initialize( const IntegerType seed )
