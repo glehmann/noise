@@ -21,7 +21,6 @@
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkProgressReporter.h"
-#include "itkNormalVariateGenerator.h"
 
 namespace itk
 {
@@ -47,7 +46,6 @@ ShotNoiseImageFilter<TInputImage, TOutputImage>
   typename Statistics::ThreadSafeMersenneTwisterRandomVariateGenerator::Pointer rand = 
       Statistics::ThreadSafeMersenneTwisterRandomVariateGenerator::New();
   rand->Initialize();
-  typename Statistics::NormalVariateGenerator::Pointer randn = Statistics::NormalVariateGenerator::New();
   
   // Define the portion of the input to walk for this thread, using
   // the CallCopyOutputRegionToInputRegion method allows for the input
@@ -83,7 +81,7 @@ ShotNoiseImageFilter<TInputImage, TOutputImage>
       }
     else
       {
-      double out = in + vcl_sqrt( in ) * randn->GetVariate();
+      double out = in + rand->GetNormalVariate( 0, in );
       outputIt.Set( (OutputImagePixelType) std::min( (double)NumericTraits<OutputImagePixelType>::max(), out/m_Scale ) );
       }
     ++inputIt;

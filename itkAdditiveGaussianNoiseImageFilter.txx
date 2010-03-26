@@ -20,7 +20,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkProgressReporter.h"
-#include "itkNormalVariateGenerator.h"
+#include "itkThreadSafeMersenneTwisterRandomVariateGenerator.h"
 
 namespace itk
 {
@@ -44,7 +44,8 @@ AdditiveGaussianNoiseImageFilter<TInputImage, TOutputImage>
   OutputImagePointer outputPtr = this->GetOutput(0);
   
   // create a random generator per thread
-  typename Statistics::NormalVariateGenerator::Pointer randn = Statistics::NormalVariateGenerator::New();
+  typename Statistics::ThreadSafeMersenneTwisterRandomVariateGenerator::Pointer rand = Statistics::ThreadSafeMersenneTwisterRandomVariateGenerator::New();
+  rand->Initialize();
   
   // Define the portion of the input to walk for this thread, using
   // the CallCopyOutputRegionToInputRegion method allows for the input
@@ -63,7 +64,7 @@ AdditiveGaussianNoiseImageFilter<TInputImage, TOutputImage>
 
   while( !inputIt.IsAtEnd() ) 
     {
-    double out = inputIt.Get() + m_Mean + m_StandardDeviation * randn->GetVariate();
+    double out = inputIt.Get() + rand->GetNormalVariate( m_Mean, m_StandardDeviation * m_StandardDeviation );
     out = std::min( (double)NumericTraits<OutputImagePixelType>::max(), out );
     out = std::max( (double)NumericTraits<OutputImagePixelType>::NonpositiveMin(), out );
     outputIt.Set( (OutputImagePixelType) out  );

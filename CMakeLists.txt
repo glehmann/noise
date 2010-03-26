@@ -71,31 +71,31 @@ IF(BUILD_TESTING)
 
 SET(CurrentExe "shot")
 ADD_EXECUTABLE(${CurrentExe} ${CurrentExe}.cxx itkThreadSafeMersenneTwisterRandomVariateGenerator.cxx)
-TARGET_LINK_LIBRARIES(${CurrentExe} ${Libraries} ITKStatistics)
+TARGET_LINK_LIBRARIES(${CurrentExe} ${Libraries})
 
 SET(CurrentExe "gauss")
-ADD_EXECUTABLE(${CurrentExe} ${CurrentExe}.cxx)
-TARGET_LINK_LIBRARIES(${CurrentExe} ${Libraries} ITKStatistics)
+ADD_EXECUTABLE(${CurrentExe} ${CurrentExe}.cxx itkThreadSafeMersenneTwisterRandomVariateGenerator.cxx)
+TARGET_LINK_LIBRARIES(${CurrentExe} ${Libraries})
 
 SET(CurrentExe "speckle")
 ADD_EXECUTABLE(${CurrentExe} ${CurrentExe}.cxx itkThreadSafeMersenneTwisterRandomVariateGenerator.cxx)
-TARGET_LINK_LIBRARIES(${CurrentExe} ${Libraries} ITKStatistics)
+TARGET_LINK_LIBRARIES(${CurrentExe} ${Libraries})
 
 SET(CurrentExe "sp")
-ADD_EXECUTABLE(${CurrentExe} ${CurrentExe}.cxx  itkThreadSafeMersenneTwisterRandomVariateGenerator.cxx)
-TARGET_LINK_LIBRARIES(${CurrentExe} ${Libraries} ITKStatistics)
+ADD_EXECUTABLE(${CurrentExe} ${CurrentExe}.cxx itkThreadSafeMersenneTwisterRandomVariateGenerator.cxx)
+TARGET_LINK_LIBRARIES(${CurrentExe} ${Libraries})
 
 SET(CurrentExe "median")
 ADD_EXECUTABLE(${CurrentExe} ${CurrentExe}.cxx)
-TARGET_LINK_LIBRARIES(${CurrentExe} ${Libraries} ITKStatistics)
+TARGET_LINK_LIBRARIES(${CurrentExe} ${Libraries})
 
 SET(CurrentExe "psnr")
 ADD_EXECUTABLE(${CurrentExe} ${CurrentExe}.cxx)
-TARGET_LINK_LIBRARIES(${CurrentExe} ${Libraries} ITKStatistics)
+TARGET_LINK_LIBRARIES(${CurrentExe} ${Libraries})
 
 SET(CurrentExe "diff")
 ADD_EXECUTABLE(${CurrentExe} ${CurrentExe}.cxx)
-TARGET_LINK_LIBRARIES(${CurrentExe} ${Libraries} ITKStatistics)
+TARGET_LINK_LIBRARIES(${CurrentExe} ${Libraries})
 
 ENDIF(BUILD_TESTING)
 

@@ -4,7 +4,6 @@ INCLUDE_DIRECTORIES(BEFORE ${PROJECT_SOURCE_DIR})
 
 BEGIN_WRAPPER_LIBRARY("${PROJECT_NAME}")
 SET(WRAPPER_LIBRARY_DEPENDS Base)
-SET(WRAPPER_LIBRARY_LINK_LIBRARIES ITKCommon ITKNumerics ITKStatistics)
 
 # TODO: drop me once itkThreadSafeMersenneTwisterRandomVariateGenerator.cxx
 # is is ITKCommom
