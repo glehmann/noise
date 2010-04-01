@@ -66,9 +66,14 @@ SpeckleNoiseImageFilter<TInputImage, TOutputImage>
   // on m_StandardDeviation
   double theta = m_StandardDeviation * m_StandardDeviation;
   double k = 1 / theta;
-  double floork = itk::Math::Floor( k );
+// TODO: use me!
+//  double floork = itk::Math::Floor( k );
+  double floork = vcl_floor( k );
+
   double delta = k - floork;
-  double v0 = itk::Math::e / ( itk::Math::e + delta );
+// TODO: use me!
+//  double v0 = itk::Math::e / ( itk::Math::e + delta );
+  double v0 = vcl_exp(1) / ( vcl_exp(1) + delta );
 
   while( !inputIt.IsAtEnd() ) 
     {
