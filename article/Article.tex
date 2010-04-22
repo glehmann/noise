@@ -279,7 +279,7 @@ The peak signal-to-noise ratio (PSNR) is a measure of degradation of the image q
 It is computed as
 
 \begin{eqnarray}
-PSNR = 10 \cdot log_{10}\left(\frac{M \cdot N}{\underset{p \in D}{\sum} (I_0[p]-I[p])^2}\right)
+PSNR = 10 \cdot log_{10}\left(\frac{M^2 \cdot N}{\underset{p \in D}{\sum} (I_0[p]-I[p])^2}\right)
 \end{eqnarray}
 
 where $D$ is the domain of definition of the image $I_0$ and $I$, $N$ is the number of pixel in $D$,
