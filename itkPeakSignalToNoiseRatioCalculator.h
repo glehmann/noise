@@ -95,6 +95,7 @@ private:
 
   InputImageConstPointer    m_Image;
   InputImageConstPointer    m_NoisyImage;
+  InputPixelType            m_Maximum;
 
 };  // class PeakSignalToNoiseRatioCalculator
 

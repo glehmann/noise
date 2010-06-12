@@ -30,6 +30,8 @@ SaltAndPepperNoiseImageFilter<TInputImage, TOutputImage>
 ::SaltAndPepperNoiseImageFilter()
 {
   m_Probability = 0.01;
+  m_Minimum = NumericTraits< OutputImagePixelType >::NonpositiveMin();
+  m_Maximum = NumericTraits< OutputImagePixelType >::max();
 }
 
 
@@ -64,17 +66,18 @@ SaltAndPepperNoiseImageFilter<TInputImage, TOutputImage>
 
   while( !inputIt.IsAtEnd() ) 
     {
-    if( rand->GetVariate() < m_Probability )
+    double r = rand->GetVariate();
+    if( r < m_Probability )
       {
-      if( rand->GetVariate() < 0.5 )
+      if( r < m_Probability / 2 )
         {
         // salt
-        outputIt.Set( NumericTraits<OutputImagePixelType>::max() );
+        outputIt.Set( m_Maximum );
         }
       else
         {
         // pepper
-        outputIt.Set( NumericTraits<OutputImagePixelType>::NonpositiveMin() );
+        outputIt.Set( m_Minimum );
         }
       }
     else
@@ -97,6 +100,12 @@ SaltAndPepperNoiseImageFilter<TInputImage, TOutputImage>
     Superclass::PrintSelf(os, indent);
     os << indent << "Probability: " 
        << static_cast<typename NumericTraits<double>::PrintType>(this->GetProbability())
+       << std::endl;
+    os << indent << "Minimum: " 
+       << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(this->GetMinimum())
+       << std::endl;
+    os << indent << "Maximum: " 
+       << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(this->GetMaximum())
        << std::endl;
 }
 

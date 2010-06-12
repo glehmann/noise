@@ -33,6 +33,7 @@ PeakSignalToNoiseRatioCalculator<TInputImage>
   m_Image = NULL;
   m_NoisyImage = NULL;
   m_Output = NumericTraits< InputPixelType >::Zero;
+  m_Maximum = NumericTraits< InputPixelType >::max();
 }
 
 
@@ -46,6 +47,7 @@ PeakSignalToNoiseRatioCalculator<TInputImage>
   os << indent << "NoisyImage: " << m_NoisyImage.GetPointer() << std::endl;
   os << indent << "Valid: " << m_Valid << std::endl;
   os << indent << "Output: " << m_Output << std::endl;
+  os << indent << "Maximum: " << m_Maximum << std::endl;
 }
 
 
@@ -71,8 +73,6 @@ PeakSignalToNoiseRatioCalculator<TInputImage>
 
   // init the values
   double mse = 0;
-  InputPixelType max = NumericTraits<InputPixelType>::max();
-  
   while( !iIt.IsAtEnd() )
     {
     mse += pow( (double)nIt.Get() - (double)iIt.Get(), 2 );
@@ -81,7 +81,7 @@ PeakSignalToNoiseRatioCalculator<TInputImage>
     }
   mse /= m_Image->GetRequestedRegion().GetNumberOfPixels();
   
-  m_Output = 10 * vcl_log10( max * max / mse );
+  m_Output = 10 * vcl_log10( m_Maximum * m_Maximum / mse );
   m_Valid = true;
 
 }

@@ -71,6 +71,12 @@ public:
   itkGetConstMacro(Probability, double);
   itkSetMacro(Probability, double);
   
+  itkGetConstMacro(Minimum, OutputImagePixelType);
+  itkSetMacro(Minimum, OutputImagePixelType);
+  
+  itkGetConstMacro(Maximum, OutputImagePixelType);
+  itkSetMacro(Maximum, OutputImagePixelType);
+  
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
@@ -97,7 +103,9 @@ private:
   SaltAndPepperNoiseImageFilter(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
   
-  double m_Probability;
+  double               m_Probability;
+  OutputImagePixelType m_Minimum;
+  OutputImagePixelType m_Maximum;
 
 };
 
